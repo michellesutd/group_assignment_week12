@@ -44,7 +44,7 @@
     .domain(classThresholds)
     .range(schemeOranges[numClasses])
   console.log(myColorScale)
-  const padding = { left: 90, bottom: 30, top: 0, right: 10 };
+  const padding = { left: 30, bottom: 30, top: 0, right: 10 };
   const color = "rgb(93, 134, 156)";
   const color1 = "rgb(93, 250, 156)";
 
@@ -52,15 +52,56 @@
   // new data
 
   let salesDistribution = hexWithoutNull
-    .bin({ groupBy: "mean_floor_area", method: "EqualInterval", numClasses: 200  })
-    .summarise({ mean_price: { mean_price: "mean" } })
-  //console.log("this is my aim" , salesDistribution)
+    .bin({ groupBy: "mean_floor_area", method: "EqualInterval", numClasses: 500  })
+    .summarise({ mean_price: { mean_price: "min" } })
+  console.log("this is my aim" , salesDistribution._data.$key);
 
+  let colors = [];
+  for(let p in salesDistribution.column('mean_price')) {
+    colors.push('rgb(93, 134, 156)');
+  }
+
+  salesDistribution.addColumn('color', colors);
+// change color
 let showid;
+let color_change = "";
+let change_colors = [];
   function ShowData(e){
+    
+    salesDistribution = hexWithoutNull
+    .bin({ groupBy: "mean_floor_area", method: "EqualInterval", numClasses: 500  })
+    .summarise({ mean_price: { mean_price: "min" } })
+
+    change_colors = [];
     //console.log(hexWithoutNull._data.hex_id[e.key])
-    showid = hexWithoutNull._data.hex_id[e.key]
+    showid = e.key
     console.log("show id is " , showid)
+    for(let change in salesDistribution._data.$key) {
+      if(change == showid){
+        color_change = "#ff0000";
+      }
+      else{
+        color_change = "rgb(93, 134, 156)";
+      }
+      change_colors.push(color_change);
+    }
+    
+    salesDistribution.addColumn('color', change_colors);
+    console.log(salesDistribution.column('color'));
+  }
+
+  function MoveData(e){
+    salesDistribution = hexWithoutNull
+    .bin({ groupBy: "mean_floor_area", method: "EqualInterval", numClasses: 500  })
+    .summarise({ mean_price: { mean_price: "min" } })
+ 
+
+    let colors = [];
+    for(let p in salesDistribution.column('mean_price')) {
+      colors.push('rgb(93, 134, 156)');
+    }
+
+  salesDistribution.addColumn('color', colors);
   }
   
 </script>
@@ -77,8 +118,10 @@ let showid;
   <div class="main-chart">
     <div class="hexgan-style">
       <Graphic {...myGeoScale} flipY>
-        <PolygonLayer 
+        <PolygonLayer
           onMouseover={(e)=> { ShowData(e) ;} }
+          onMouseout = {(e)=> { MoveData(e) ;} }
+          
           geometry={hex.column('$geometry')}
           stroke={'white'}
           strokeWidth={1} 
@@ -94,10 +137,10 @@ let showid;
     </div>
     <div></div>
     
-    <Graphic width={1800} height={425}>
+    <Graphic width={2000} height={425}>
       <Section
         x1={0}
-        x2={1800}
+        x2={2000}
         y1={0}
         y2={400}
         {padding}
@@ -109,12 +152,13 @@ let showid;
         ])}>
         
         <RectangleLayer
-          
+          onMouseover={(e)=> { ShowData(e) ;} }
+          onMouseout = {(e)=> { MoveData(e) ;} }
           x1={salesDistribution.map('bins', bin => bin[0])}
           x2={salesDistribution.map('bins', bin => bin[1])}
           y1={0}
           y2={salesDistribution.column('mean_price')}
-          fill={color} />
+          fill={salesDistribution.column('color')} />
         
         <XAxis tickCount={5} labelFontSize={8} title="mean_floor_area" />
         <YAxis labelFontSize={8} title="mean price" />

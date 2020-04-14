@@ -31917,15 +31917,16 @@ return d[d.length-1];};return ", funcName].join("");
     const { console: console_1 } = globals;
     const file$6 = "App.svelte";
 
-    // (79:6) <Graphic {...myGeoScale} flipY>
+    // (120:6) <Graphic {...myGeoScale} flipY>
     function create_default_slot_2(ctx) {
     	let t;
     	let current;
 
     	const polygonlayer0 = new PolygonLayer({
     			props: {
-    				onMouseover: /*func*/ ctx[10],
-    				geometry: /*hex*/ ctx[0].column("$geometry"),
+    				onMouseover: /*func*/ ctx[14],
+    				onMouseout: /*func_1*/ ctx[15],
+    				geometry: /*hex*/ ctx[1].column("$geometry"),
     				stroke: "white",
     				strokeWidth: 1,
     				fill: "#E0E0E0"
@@ -31935,10 +31936,10 @@ return d[d.length-1];};return ", funcName].join("");
 
     	const polygonlayer1 = new PolygonLayer({
     			props: {
-    				geometry: /*hexWithoutNull*/ ctx[1].column("$geometry"),
+    				geometry: /*hexWithoutNull*/ ctx[2].column("$geometry"),
     				stroke: "white",
     				strokeWidth: 1,
-    				fill: /*hexWithoutNull*/ ctx[1].map("mean_price", /*myColorScale*/ ctx[3])
+    				fill: /*hexWithoutNull*/ ctx[2].map("mean_price", /*myColorScale*/ ctx[4])
     			},
     			$$inline: true
     		});
@@ -31978,14 +31979,14 @@ return d[d.length-1];};return ", funcName].join("");
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(79:6) <Graphic {...myGeoScale} flipY>",
+    		source: "(120:6) <Graphic {...myGeoScale} flipY>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (98:6) <Section         x1={0}         x2={1800}         y1={0}         y2={400}         {padding}         flipY         scaleX={scaleLinear().domain(salesDistribution.domain('bins'))}         scaleY={scaleLinear().domain([           0,           salesDistribution.domain('mean_price')[1]         ])}>
+    // (141:6) <Section         x1={0}         x2={2000}         y1={0}         y2={400}         {padding}         flipY         scaleX={scaleLinear().domain(salesDistribution.domain('bins'))}         scaleY={scaleLinear().domain([           0,           salesDistribution.domain('mean_price')[1]         ])}>
     function create_default_slot_1(ctx) {
     	let t0;
     	let t1;
@@ -31993,11 +31994,13 @@ return d[d.length-1];};return ", funcName].join("");
 
     	const rectanglelayer = new RectangleLayer({
     			props: {
-    				x1: /*salesDistribution*/ ctx[5].map("bins", func_1),
-    				x2: /*salesDistribution*/ ctx[5].map("bins", func_2),
+    				onMouseover: /*func_2*/ ctx[16],
+    				onMouseout: /*func_3*/ ctx[17],
+    				x1: /*salesDistribution*/ ctx[0].map("bins", func_4),
+    				x2: /*salesDistribution*/ ctx[0].map("bins", func_5),
     				y1: 0,
-    				y2: /*salesDistribution*/ ctx[5].column("mean_price"),
-    				fill: color$1
+    				y2: /*salesDistribution*/ ctx[0].column("mean_price"),
+    				fill: /*salesDistribution*/ ctx[0].column("color")
     			},
     			$$inline: true
     		});
@@ -32032,7 +32035,14 @@ return d[d.length-1];};return ", funcName].join("");
     			mount_component(yaxis, target, anchor);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			const rectanglelayer_changes = {};
+    			if (dirty & /*salesDistribution*/ 1) rectanglelayer_changes.x1 = /*salesDistribution*/ ctx[0].map("bins", func_4);
+    			if (dirty & /*salesDistribution*/ 1) rectanglelayer_changes.x2 = /*salesDistribution*/ ctx[0].map("bins", func_5);
+    			if (dirty & /*salesDistribution*/ 1) rectanglelayer_changes.y2 = /*salesDistribution*/ ctx[0].column("mean_price");
+    			if (dirty & /*salesDistribution*/ 1) rectanglelayer_changes.fill = /*salesDistribution*/ ctx[0].column("color");
+    			rectanglelayer.$set(rectanglelayer_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(rectanglelayer.$$.fragment, local);
@@ -32059,27 +32069,27 @@ return d[d.length-1];};return ", funcName].join("");
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(98:6) <Section         x1={0}         x2={1800}         y1={0}         y2={400}         {padding}         flipY         scaleX={scaleLinear().domain(salesDistribution.domain('bins'))}         scaleY={scaleLinear().domain([           0,           salesDistribution.domain('mean_price')[1]         ])}>",
+    		source: "(141:6) <Section         x1={0}         x2={2000}         y1={0}         y2={400}         {padding}         flipY         scaleX={scaleLinear().domain(salesDistribution.domain('bins'))}         scaleY={scaleLinear().domain([           0,           salesDistribution.domain('mean_price')[1]         ])}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (97:4) <Graphic width={1800} height={425}>
+    // (140:4) <Graphic width={2000} height={425}>
     function create_default_slot(ctx) {
     	let current;
 
     	const section = new Section({
     			props: {
     				x1: 0,
-    				x2: 1800,
+    				x2: 2000,
     				y1: 0,
     				y2: 400,
-    				padding: /*padding*/ ctx[4],
+    				padding: /*padding*/ ctx[5],
     				flipY: true,
-    				scaleX: linear$1().domain(/*salesDistribution*/ ctx[5].domain("bins")),
-    				scaleY: linear$1().domain([0, /*salesDistribution*/ ctx[5].domain("mean_price")[1]]),
+    				scaleX: linear$1().domain(/*salesDistribution*/ ctx[0].domain("bins")),
+    				scaleY: linear$1().domain([0, /*salesDistribution*/ ctx[0].domain("mean_price")[1]]),
     				$$slots: { default: [create_default_slot_1] },
     				$$scope: { ctx }
     			},
@@ -32096,8 +32106,10 @@ return d[d.length-1];};return ", funcName].join("");
     		},
     		p: function update(ctx, dirty) {
     			const section_changes = {};
+    			if (dirty & /*salesDistribution*/ 1) section_changes.scaleX = linear$1().domain(/*salesDistribution*/ ctx[0].domain("bins"));
+    			if (dirty & /*salesDistribution*/ 1) section_changes.scaleY = linear$1().domain([0, /*salesDistribution*/ ctx[0].domain("mean_price")[1]]);
 
-    			if (dirty & /*$$scope*/ 2048) {
+    			if (dirty & /*$$scope, salesDistribution*/ 262145) {
     				section_changes.$$scope = { dirty, ctx };
     			}
 
@@ -32121,7 +32133,7 @@ return d[d.length-1];};return ", funcName].join("");
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(97:4) <Graphic width={1800} height={425}>",
+    		source: "(140:4) <Graphic width={2000} height={425}>",
     		ctx
     	});
 
@@ -32136,7 +32148,7 @@ return d[d.length-1];};return ", funcName].join("");
     	let div1;
     	let t1;
     	let current;
-    	const graphic0_spread_levels = [/*myGeoScale*/ ctx[2], { flipY: true }];
+    	const graphic0_spread_levels = [/*myGeoScale*/ ctx[3], { flipY: true }];
 
     	let graphic0_props = {
     		$$slots: { default: [create_default_slot_2] },
@@ -32151,7 +32163,7 @@ return d[d.length-1];};return ", funcName].join("");
 
     	const graphic1 = new Graphic({
     			props: {
-    				width: 1800,
+    				width: 2000,
     				height: 425,
     				$$slots: { default: [create_default_slot] },
     				$$scope: { ctx }
@@ -32170,12 +32182,12 @@ return d[d.length-1];};return ", funcName].join("");
     			t1 = space();
     			create_component(graphic1.$$.fragment);
     			attr_dev(div0, "class", "hexgan-style svelte-151o4zr");
-    			add_location(div0, file$6, 77, 4, 2021);
-    			add_location(div1, file$6, 94, 4, 2534);
+    			add_location(div0, file$6, 118, 4, 3170);
+    			add_location(div1, file$6, 137, 4, 3742);
     			attr_dev(div2, "class", "main-chart");
-    			add_location(div2, file$6, 76, 2, 1992);
+    			add_location(div2, file$6, 117, 2, 3141);
     			attr_dev(div3, "class", "graph");
-    			add_location(div3, file$6, 75, 0, 1970);
+    			add_location(div3, file$6, 116, 0, 3119);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -32192,18 +32204,18 @@ return d[d.length-1];};return ", funcName].join("");
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			const graphic0_changes = (dirty & /*myGeoScale*/ 4)
-    			? get_spread_update(graphic0_spread_levels, [get_spread_object(/*myGeoScale*/ ctx[2]), graphic0_spread_levels[1]])
+    			const graphic0_changes = (dirty & /*myGeoScale*/ 8)
+    			? get_spread_update(graphic0_spread_levels, [get_spread_object(/*myGeoScale*/ ctx[3]), graphic0_spread_levels[1]])
     			: {};
 
-    			if (dirty & /*$$scope*/ 2048) {
+    			if (dirty & /*$$scope*/ 262144) {
     				graphic0_changes.$$scope = { dirty, ctx };
     			}
 
     			graphic0.$set(graphic0_changes);
     			const graphic1_changes = {};
 
-    			if (dirty & /*$$scope*/ 2048) {
+    			if (dirty & /*$$scope, salesDistribution*/ 262145) {
     				graphic1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -32253,8 +32265,8 @@ return d[d.length-1];};return ", funcName].join("");
     	return thresholds;
     }
 
-    const func_1 = bin => bin[0];
-    const func_2 = bin => bin[1];
+    const func_4 = bin => bin[0];
+    const func_5 = bin => bin[1];
 
     function instance$c($$self, $$props, $$invalidate) {
     	const hex = new DataContainer(hexGrid);
@@ -32278,23 +32290,72 @@ return d[d.length-1];};return ", funcName].join("");
     	const myColorScale = threshold().domain(classThresholds).range(scheme[numClasses]);
 
     	console.log(myColorScale);
-    	const padding = { left: 90, bottom: 30, top: 0, right: 10 };
+    	const padding = { left: 30, bottom: 30, top: 0, right: 10 };
 
     	// new data
     	let salesDistribution = hexWithoutNull.bin({
     		groupBy: "mean_floor_area",
     		method: "EqualInterval",
-    		numClasses: 200
-    	}).summarise({ mean_price: { mean_price: "mean" } });
+    		numClasses: 500
+    	}).summarise({ mean_price: { mean_price: "min" } });
 
-    	//console.log("this is my aim" , salesDistribution)
+    	console.log("this is my aim", salesDistribution._data.$key);
+    	let colors = [];
+
+    	for (let p in salesDistribution.column("mean_price")) {
+    		colors.push("rgb(93, 134, 156)");
+    	}
+
+    	salesDistribution.addColumn("color", colors);
+
+    	// change color
     	let showid;
 
+    	let color_change = "";
+    	let change_colors = [];
+
     	function ShowData(e) {
+    		$$invalidate(0, salesDistribution = hexWithoutNull.bin({
+    			groupBy: "mean_floor_area",
+    			method: "EqualInterval",
+    			numClasses: 500
+    		}).summarise({ mean_price: { mean_price: "min" } }));
+
+    		change_colors = [];
+
     		//console.log(hexWithoutNull._data.hex_id[e.key])
-    		showid = hexWithoutNull._data.hex_id[e.key];
+    		showid = e.key;
 
     		console.log("show id is ", showid);
+
+    		for (let change in salesDistribution._data.$key) {
+    			if (change == showid) {
+    				color_change = "#ff0000";
+    			} else {
+    				color_change = "rgb(93, 134, 156)";
+    			}
+
+    			change_colors.push(color_change);
+    		}
+
+    		salesDistribution.addColumn("color", change_colors);
+    		console.log(salesDistribution.column("color"));
+    	}
+
+    	function MoveData(e) {
+    		$$invalidate(0, salesDistribution = hexWithoutNull.bin({
+    			groupBy: "mean_floor_area",
+    			method: "EqualInterval",
+    			numClasses: 500
+    		}).summarise({ mean_price: { mean_price: "min" } }));
+
+    		let colors = [];
+
+    		for (let p in salesDistribution.column("mean_price")) {
+    			colors.push("rgb(93, 134, 156)");
+    		}
+
+    		salesDistribution.addColumn("color", colors);
     	}
 
     	const writable_props = [];
@@ -32308,6 +32369,18 @@ return d[d.length-1];};return ", funcName].join("");
 
     	const func = e => {
     		ShowData(e);
+    	};
+
+    	const func_1 = e => {
+    		MoveData();
+    	};
+
+    	const func_2 = e => {
+    		ShowData(e);
+    	};
+
+    	const func_3 = e => {
+    		MoveData();
     	};
 
     	$$self.$capture_state = () => ({
@@ -32339,13 +32412,20 @@ return d[d.length-1];};return ", funcName].join("");
     		color: color$1,
     		color1,
     		salesDistribution,
+    		colors,
     		showid,
-    		ShowData
+    		color_change,
+    		change_colors,
+    		ShowData,
+    		MoveData
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("salesDistribution" in $$props) $$invalidate(5, salesDistribution = $$props.salesDistribution);
+    		if ("salesDistribution" in $$props) $$invalidate(0, salesDistribution = $$props.salesDistribution);
+    		if ("colors" in $$props) colors = $$props.colors;
     		if ("showid" in $$props) showid = $$props.showid;
+    		if ("color_change" in $$props) color_change = $$props.color_change;
+    		if ("change_colors" in $$props) change_colors = $$props.change_colors;
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -32353,17 +32433,24 @@ return d[d.length-1];};return ", funcName].join("");
     	}
 
     	return [
+    		salesDistribution,
     		hex,
     		hexWithoutNull,
     		myGeoScale,
     		myColorScale,
     		padding,
-    		salesDistribution,
     		ShowData,
+    		MoveData,
     		showid,
+    		color_change,
+    		change_colors,
     		classBins,
     		classThresholds,
-    		func
+    		colors,
+    		func,
+    		func_1,
+    		func_2,
+    		func_3
     	];
     }
 
